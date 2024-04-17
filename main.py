@@ -16,6 +16,27 @@ clock = pygame.time.Clock()
 
 gameIsRunning = True
 
+ball_x = 100
+ball_y = 100
+
+dx = 3
+dy = 3
+
+def updateWorld():
+    global ball_x, ball_y, dx, dy
+
+    ball_x = ball_x + dx
+    ball_y = ball_y + dy
+
+    if ball_x+20 >= 800 or ball_x-20 <= 0:
+        dx = -dx
+
+    if ball_y + 20 >= 600 or ball_y - 20 <= 0:
+        dy = -dy
+
+def drawScene():
+    pygame.draw.circle(screen, (255, 255, 255), (ball_x, ball_y), 20)
+
 # Game loop
 while gameIsRunning:
     # Event handling
@@ -23,10 +44,14 @@ while gameIsRunning:
         if event.type == pygame.QUIT:
             gameIsRunning = False
 
-		# Clear the screen
+    # Clear the screen
     screen.fill((0, 0, 0))
 
-    pygame.draw.circle(screen, (255, 255, 255), (100, 100), 20)
+    # Update the world
+    updateWorld()
+
+    # Draw the scene
+    drawScene()
 
     # Flip the display
     pygame.display.flip()
